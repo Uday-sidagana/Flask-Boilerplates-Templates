@@ -1,5 +1,6 @@
 from extra_pages import extra
+from flask import render_template
 
 @extra.route('/extra')
 def extra():
-    pass
+    return render_template('index.html')
