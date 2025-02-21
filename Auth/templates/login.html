@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}INDEX PAGE{% endblock %}
+{% block title %}LOGIN PAGE{% endblock %}
 
 {% block content %}
+<h1>
+    LOGIN PAGE
+</h1>
 
+<form action="login" method="post">
 
+    <p>Email:</p><input type="text"  placeholder="Name" name="email">
+    <p>Password:</p><input type="password" placeholder="Password" name="password"><br>
+    <input type="submit" value="LOGIN">
+
+</form>
 {% endblock %}
