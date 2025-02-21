@@ -1,6 +1,21 @@
 from flask import Flask, request, render_template
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./testdb.db'
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    __tablename__='users'
+
+    uid = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+
+
+
 
 @app.route('/')
 def index():
