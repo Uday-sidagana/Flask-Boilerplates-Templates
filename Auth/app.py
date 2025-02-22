@@ -48,7 +48,7 @@ def register():
 
             if is_valid_password(password):
 
-                new_user= User(name=name, email=email, password=password)
+                new_user= User(email=email, name=name,  password=password)
                 db.session.add(new_user)
                 db.session.commit()
                 return redirect(url_for('login')) 
@@ -72,7 +72,6 @@ def login():
         if user and user.checkPassword(password):
             session['name'] = user.name
             session['email'] = user.email
-            session['password'] = user.password
 
             return redirect(url_for('homepage'))
         else:
@@ -84,7 +83,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('email', None)
+    session.clear()
     return redirect(url_for('login'))
 
 
