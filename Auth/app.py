@@ -37,7 +37,11 @@ def index():
 def register():
     if request.method =="POST":
         #handle resistration
-        pass
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+
     return render_template('register.html')
 
 @app.route('/login', methods=["POST", "GET"])
