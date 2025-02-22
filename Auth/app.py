@@ -53,14 +53,14 @@ def login():
         email= request.form.get('email')
         password = request.form.get('password')
 
-        user = User.query.filter_by(email).first()
+        user = User.query.filter_by(email=email).first()
 
-        if user and user.check_password(password):
+        if user and user.checkPassword(password):
             session['name'] = user.name
             session['email'] = user.email
             session['password'] = user.password
 
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('homepage'))
         else:
             return render_template('login.html', error= 'invalid user')
 
@@ -70,7 +70,7 @@ def login():
 @app.route('/homepage')
 def homepage():
     if session['name']:
-        user = User.query.filter_by('email').first()
+        user = User.query.filter_by(email=session['email']).first()
 
         return render_template('homepage.html', user= user)
     
