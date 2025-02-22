@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
-
+import re
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./testdb.db'
@@ -31,6 +31,11 @@ with app.app_context():
 def index():
     return 'hi'
 
+# Password validation function
+def is_valid_password(password):
+    pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$'
+    return re.match(pattern, password)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method =="POST":
@@ -39,11 +44,20 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        new_user= User(name=name, email=email, password=password)
-        db.session.add(new_user)
-        db.session.commit()
+        if name and email and password:
 
-        return redirect(url_for('login')) 
+            if is_valid_password(password):
+
+                new_user= User(name=name, email=email, password=password)
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for('login')) 
+            else:
+                return render_template('register.html', errorReg=
+                                    "Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (@, $, !, %, *, ?, &).")
+            
+        else:
+            return render_template('register.html', errorMissingValuesReg="Fields cannot be empty")
 
     return render_template('register.html')
 

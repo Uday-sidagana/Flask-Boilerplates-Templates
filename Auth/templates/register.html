@@ -18,4 +18,11 @@
 
 </form>
 
+{% if errorReg %}
+<p style="color: red;">{{errorReg}}</p>
+{% endif %}
+
+{% if errorMissingValuesReg %}
+<p style="color: red;">{{errorMissingValuesReg}}</p>
+{% endif %}
 {% endblock %}
