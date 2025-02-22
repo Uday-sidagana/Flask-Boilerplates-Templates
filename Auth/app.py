@@ -81,12 +81,21 @@ def login():
 
     return render_template('login.html')
 
+
+@app.route('/logout')
+def logout():
+    session.pop('email', None)
+    return redirect(url_for('login'))
+
+
 @app.route('/homepage')
 def homepage():
     if session['name']:
         user = User.query.filter_by(email=session['email']).first()
 
         return render_template('homepage.html', user= user)
+    
+
     
 
 
