@@ -69,7 +69,11 @@ def login():
 @app.route('/homepage')
 def homepage():
     if session['name']:
-        return render_template('homepage.html')
+        user = User.query.filter_by('email').first()
+
+        return render_template('homepage.html', user= user)
+    
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
