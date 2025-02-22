@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./testdb.db'
 db = SQLAlchemy(app)
-
+app.secret_key = 'secret_key'
 class User(db.Model):
     __tablename__='users'
 
@@ -44,8 +44,6 @@ def register():
 
         return redirect(url_for('login')) 
 
-
-
     return render_template('register.html')
 
 @app.route('/login', methods=["POST", "GET"])
@@ -61,10 +59,17 @@ def login():
             session['email'] = user.email
             session['password'] = user.password
 
-            return redirect(url_for('index'))
+            return redirect(url_for('dashboard'))
+        else:
+            return render_template('login.html', error= 'invalid user')
 
 
     return render_template('login.html')
+
+@app.route('/homepage')
+def homepage():
+    if session['name']:
+        return render_template('homepage.html')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
